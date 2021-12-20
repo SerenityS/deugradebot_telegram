@@ -53,7 +53,11 @@ def send_msg(gd):
     for grade in gd:
         if grade['grade'] != "":
             if not os.path.exists(grade['lectureName']):
-                bot.sendMessage(chat_id=chat_id, text=f"{grade['lectureName']}")
+                bot.sendMessage(chat_id=chat_id, text=f"성적 정보가 등록되었습니다.\n\n"
+                                                      f"교과목명 : {grade['lectureName']}\n"
+                                                      f"담당교수 : {grade['profName']}\n"
+                                                      f"등급 : {grade['grade']}\n"
+                                                      f"취득점수 : {grade['score']}")
                 with open(grade['lectureName'], 'w') as f:
                     f.close()
 
