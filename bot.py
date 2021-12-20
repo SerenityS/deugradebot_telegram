@@ -1,7 +1,11 @@
+import os
 import requests
+import telegram
 
 from bs4 import BeautifulSoup
-from constants import id, pw
+from constants import id, pw, token, chat_id
+
+bot = telegram.Bot(token)
 
 s = requests.Session()
 
@@ -45,5 +49,16 @@ def login_deu_web():
     s.post(web_login_url, data=login_data)
 
 
+def send_msg(gd):
+    for grade in gd:
+        if grade['grade'] != "":
+            if not os.path.exists(grade['lectureName']):
+                bot.sendMessage(chat_id=chat_id, text=f"{grade['lectureName']}")
+                with open(grade['lectureName'], 'w') as f:
+                    f.close()
+
+
 if __name__ == "__main__":
     login_deu_app()
+    grade_data = get_grade_data()
+    send_msg(grade_data)
